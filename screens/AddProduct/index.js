@@ -285,13 +285,13 @@ class AddProduct extends Component {
             </View>
             <View style={styles.numberBox}>
               <View style={styles.mainPhone}>
-                <Text>+7 775 501 10 50 - Основной</Text>
+                <Text>{this.props.profile.phone} - Основной</Text>
               </View>
               <View>
                 {numberList.map((item, index) => {
                   return (
                     <TouchableOpacity>
-                      <Text>+7 701 657 09 45</Text>
+                      <Text></Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -402,5 +402,13 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgba(0,0,0,0.1)"
   }
 });
+const mapStateToProps = ({ profile, translate, errors }) => {
+  return { profile, translate, errors };
+};
 
-export default AddProduct;
+const mapDispatchToProps = dispatch => ({
+ 
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);
