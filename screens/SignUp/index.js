@@ -19,6 +19,7 @@ import { signUp } from "../../actions/AuthActions";
 import SwitchSelector from "react-native-switch-selector";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { TextInputMask } from "react-native-masked-text";
 
 class SignUp extends React.Component {
   state = {
@@ -34,11 +35,11 @@ class SignUp extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps",nextProps);
-    if(nextProps.auth.registered){
+    console.log("nextProps", nextProps);
+    if (nextProps.auth.registered) {
       this.onSuccess();
     }
-    if(nextProps.errors){
+    if (nextProps.errors) {
       this.onError(nextProps.errors);
     }
   }
@@ -46,7 +47,6 @@ class SignUp extends React.Component {
     const { pop } = this.props.navigation;
     pop(1);
   };
-
 
   onSuccess = () => {
     const { navigation } = this.props;
@@ -57,7 +57,6 @@ class SignUp extends React.Component {
     }
   };
   onError = error => {
-
     this.dropdown.alertWithType("error", "Error", error);
   };
 
@@ -150,15 +149,27 @@ class SignUp extends React.Component {
             />
           </View>
           <View style={styles.wrapContainer}>
-            <InputField
-              cc="phone"
-              value={this.state.data.phone}
-              onChange={this.onChange}
-              title={"Номер телефона"}
-              placeholder={"+7 (777) 777 77 77"}
-              keyboardType={"numeric"}
-              mask={"+7 ([000]) [000] [00] [00]"}
-            />
+            <View style={{paddingHorizontal:15}}>
+              <Text style={styles.title}>Номер телефона</Text>
+              <View style={[styles.txtContainer]}>
+                <TextInputMask
+                  type={"custom"}
+                  options={{
+                    mask: "+7 (999) 999-99-99"
+                  }}
+                  placeholder="+7 (999) 999-99-99"
+                  keyboardType={"numeric"}
+                  value={this.state.data.phone}
+                  onChangeText={(text, raw) => {
+                    this.setState(state => {
+                      state.data.phone = text;
+                      return state;
+                    });
+                  }}
+                  style={styles.inputContainer}
+                />
+              </View>
+            </View>
           </View>
           <View style={styles.wrapContainer}>
             <InputField
@@ -182,7 +193,10 @@ class SignUp extends React.Component {
             <EvilIcons color={"#fff"} size={40} name={"chevron-right"} />
           </TouchableOpacity>
         </KeyboardAwareScrollView>
-        <DropdownAlert containerStyle={{marginTop:Constants.statusBarHeight}} ref={ref => (this.dropdown = ref)} />
+        <DropdownAlert
+          containerStyle={{ marginTop: Constants.statusBarHeight }}
+          ref={ref => (this.dropdown = ref)}
+        />
       </SafeAreaView>
     );
   }
@@ -236,6 +250,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginTop: 80
+  },
+  inputContainerSS: {
+    paddingHorizontal: 15,
+    marginBottom: 10
+  },
+  title: {
+    marginBottom: 10,
+    fontSize: 14
+  },
+  inputContainer: {
+    backgroundColor: "rgba(0,0,0,0.05)",
+    height: 40,
+    borderRadius: 5,
+    paddingHorizontal: 10
+  },
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: "#c9c9c9"
+  },
+  search: {
+    paddingRight: 10
   }
 });
 

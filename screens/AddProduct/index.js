@@ -20,12 +20,18 @@ class AddProduct extends Component {
   state = {
     image: null,
     images: [],
-    itemList: [],
     modalVisible: false,
     numberList: [],
+    itemList: [],
     name:"",
+    description:"",
     price:"",
-    count:""
+    count:"",
+    product:{
+      name:"",
+      price:"",
+      count:""
+    }
   };
 
   addNumber = number => {
@@ -54,6 +60,22 @@ class AddProduct extends Component {
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
+
+  addProduct = async () =>{
+    const item  = this.state.product;
+    const list = this.state.itemList;
+    list.push(item);
+    await this.setState({
+      itemList: list,
+      product:{
+        name:"",
+        price:"",
+        count:""
+      }
+    })
+    this.setModalVisible(!this.state.modalVisible);
+
+  }
 
   render() {
     let { image, images, itemList, numberList } = this.state;
@@ -86,6 +108,11 @@ class AddProduct extends Component {
                 </View>
 
                 <TextInput
+                  value={this.state.product.name}
+                  onChangeText={(name)=>this.setState(state => {
+                    state.product.name = name;
+                    return state;
+                  })}
                   placeholderTextColor="#000"
                   underlineColorAndroid="transparent"
                   style={styles.input}
@@ -100,6 +127,11 @@ class AddProduct extends Component {
                 </View>
 
                 <TextInput
+                 value={this.state.product.price}
+                 onChangeText={(price)=>this.setState(state => {
+                   state.product.price = price;
+                   return state;
+                 })}
                   placeholderTextColor="#000"
                   underlineColorAndroid="transparent"
                   style={styles.input}
@@ -114,6 +146,11 @@ class AddProduct extends Component {
                 </View>
 
                 <TextInput
+                  value={this.state.product.count}
+                  onChangeText={(count)=>this.setState(state => {
+                    state.product.count = count;
+                    return state;
+                  })}
                   keyboardType="numeric"
                   placeholderTextColor="#000"
                   underlineColorAndroid="transparent"
@@ -127,7 +164,7 @@ class AddProduct extends Component {
                   { alignSelf: "flex-start", width: "100%" }
                 ]}
                 onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
+                  this.addProduct()
                 }}
               >
                 <Text style={styles.priceAddText}>Добавить</Text>
@@ -152,6 +189,8 @@ class AddProduct extends Component {
             </View>
 
             <TextInput
+               value={this.state.name}
+               onChangeText={(name) => this.setState({name})}
               placeholderTextColor="#000"
               underlineColorAndroid="transparent"
               style={styles.input}
@@ -165,6 +204,8 @@ class AddProduct extends Component {
             </View>
             <View style={styles.textAreaContainer}>
               <TextInput
+              value={this.state.description}
+              onChangeText={(description) => this.setState({description})}
                 style={styles.textArea}
                 underlineColorAndroid="transparent"
                 placeholder="Type something"
