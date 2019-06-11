@@ -1,6 +1,5 @@
 import axios from "axios";
-import { url } from "../constants";
-import { GET_PRODUCTS, SET_PRODUCT, GET_ERRORS, SET_SELLER } from "../types";
+import { GET_PRODUCTS, SET_PRODUCT, GET_ERRORS, SET_SELLER, ADD_PRODUCT } from "../types";
 
 export const getProducts = () => dispatch => {
   console.log(dispatch);
@@ -35,6 +34,15 @@ export const getProfile =(id) => {
       });
     });
 }
+
+
+export const createProduct = (product) => {
+  axios.post("http://217.160.57.150/api/products/products/", product).then(response =>{
+    const {data} = response;
+    console.log(data);
+    dispatch(productCreated(data));
+  })
+}
 export const setCurent = product => {
   return {
     type: SET_PRODUCT,
@@ -53,6 +61,13 @@ export const fetchProducts = data => {
 export const fetchSeller = (data) =>{
   return{
     type: SET_SELLER,
+    payload:data
+  }
+}
+
+export const productCreated = data =>{
+  return{
+    type: ADD_PRODUCT,
     payload:data
   }
 }

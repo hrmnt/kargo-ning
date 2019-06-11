@@ -22,7 +22,10 @@ class AddProduct extends Component {
     images: [],
     itemList: [],
     modalVisible: false,
-    numberList: []
+    numberList: [],
+    name:"",
+    price:"",
+    count:""
   };
 
   addNumber = number => {

@@ -4,8 +4,9 @@ import {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
-  Image,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -13,6 +14,8 @@ import { bindActionCreators } from "redux";
 
 import DropdownAlert from "react-native-dropdownalert";
 import { Constants } from "expo";
+import { TextInputMask } from "react-native-masked-text";
+
 import { InputField } from "../../commons";
 import {
   NavigationActions,
@@ -64,6 +67,8 @@ class SignIn extends React.Component {
     const { data } = this.state;
     const { username, password } = data;
     const { signIn } = this.props;
+    const regex = /([+() -][])\w+/;
+    username.replace(regex, "");
 
     if (username.length < 1) {
       return;
@@ -77,6 +82,8 @@ class SignIn extends React.Component {
         phone: username,
         password
       };
+    console.log("username",username);
+
       signIn(user);
     }
   };
@@ -91,52 +98,64 @@ class SignIn extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.circle} />
-            <Text style={styles.helloTxt}>Добро пожаловать</Text>
-          </View>
-          <View style={styles.body}>
-            <View>
-              <InputField
-                cc="username"
-                value={this.state.username}
-                onChange={this.onChange}
-                placeholder={"+7 (777) 777 77 77"}
-                keyboardType={"numeric"}
-                mask={"+7 ([000]) [000] [00] [00]"}
-              />
-              <InputField
-                cc="password"
-                value={this.state.password}
-                onChange={this.onChange}
-                secureTextEntry={true}
-                placeholder={"*********"}
-              />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <View style={styles.header}>
+              <View style={styles.circle} />
+              <Text style={styles.helloTxt}>Добро пожаловать</Text>
             </View>
-            <View style={styles.row}>
-              <TouchableOpacity style={styles.freeBtn}>
-                <Text style={styles.forgotTxt}>Забыли пароль?</Text>
-              </TouchableOpacity>
+            <View style={styles.body}>
+              <View>
+                <View style={[styles.txtContainer]}>
+                  <TextInputMask
+                    type={"custom"}
+                    options={{
+                      mask: "+7 (999) 999-99-99"
+                    }}
+                    placeholder="+7 (999) 999-99-99"
+                    keyboardType={"numeric"}
+                    value={this.state.data.username}
+                    onChangeText={(text, raw) => {
+                      this.setState(state => {
+                        state.data.username = text;
+                        return state;
+                      });
+                    }}
+                    style={styles.inputContainer}
+                  />
+                </View>
+                <InputField
+                  cc="password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  secureTextEntry={true}
+                  placeholder={"*********"}
+                />
+              </View>
+              <View style={styles.row}>
+                <TouchableOpacity style={styles.freeBtn}>
+                  <Text style={styles.forgotTxt}>Забыли пароль?</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.signIn()}
+                  style={styles.btn}
+                >
+                  <Text style={styles.btnText}>Войти</Text>
+                </TouchableOpacity>
+              </View>
               <TouchableOpacity
-                onPress={() => this.signIn()}
-                style={styles.btn}
+                onPress={() => this.registerNavigate()}
+                style={styles.bigBtn}
               >
-                <Text style={styles.btnText}>Войти</Text>
+                <Text style={styles.regTxt}>Регистрация</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              onPress={() => this.registerNavigate()}
-              style={styles.bigBtn}
-            >
-              <Text style={styles.regTxt}>Регистрация</Text>
-            </TouchableOpacity>
-          </View>
-          <DropdownAlert
-            containerStyle={{ marginTop: Constants.statusBarHeight }}
-            ref={ref => (this.dropdown = ref)}
-          />
-        </KeyboardAvoidingView>
+            <DropdownAlert
+              containerStyle={{ marginTop: Constants.statusBarHeight }}
+              ref={ref => (this.dropdown = ref)}
+            />
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </SafeAreaView>
     );
   }
@@ -204,6 +223,28 @@ const styles = StyleSheet.create({
   regTxt: {
     color: "#000",
     fontSize: 16
+  },
+  txtContainer: {
+    paddingHorizontal: 15,
+    marginBottom: 10
+  },
+  title: {
+    marginBottom: 10,
+    fontSize: 14
+  },
+  inputContainer: {
+    backgroundColor: "rgba(0,0,0,0.05)",
+    height: 40,
+    borderRadius: 5,
+    paddingHorizontal: 10
+  },
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: "#c9c9c9"
+  },
+  search: {
+    paddingRight: 10
   }
 });
 

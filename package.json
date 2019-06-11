@@ -26,6 +26,7 @@
     "react-native-dropdownalert": "^3.11.0",
     "react-native-grid-component": "^1.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
+    "react-native-masked-text": "^1.12.3",
     "react-native-mediapicker": "^0.4.1",
     "react-native-segment-control": "github:hrmnt/react-native-segment-control",
     "react-native-snap-carousel": "^3.7.5",

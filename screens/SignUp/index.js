@@ -23,12 +23,12 @@ import { bindActionCreators } from "redux";
 class SignUp extends React.Component {
   state = {
     data: {
-      first_name: "sadasd",
-      last_name: "asdsadsa",
-      phone: "87786222455",
-      password: "qwerty",
-      checkPassword: "qwerty",
-      position: "1"
+      first_name: "",
+      last_name: "",
+      phone: "",
+      password: "",
+      checkPassword: "",
+      position: ""
     },
     userType: 0
   };
@@ -42,6 +42,11 @@ class SignUp extends React.Component {
       this.onError(nextProps.errors);
     }
   }
+  onBack = () => {
+    const { pop } = this.props.navigation;
+    pop(1);
+  };
+
 
   onSuccess = () => {
     const { navigation } = this.props;
@@ -114,7 +119,7 @@ class SignUp extends React.Component {
     return (
       <SafeAreaView style={styles.safeContainer}>
         <KeyboardAwareScrollView style={styles.container}>
-          <Header title={"Регистрация"} />
+          <Header onBack={() => this.onBack()} title={"Регистрация"} />
           <View style={styles.wrapContainer}>
             <SwitchSelector
               buttonColor={"#Ef741C"}

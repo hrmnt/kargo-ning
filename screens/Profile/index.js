@@ -14,6 +14,7 @@ import { bindActionCreators } from "redux";
 import { Constants } from "expo";
 import InfoBox from "./InfoBox";
 import ButtonBox from "./ButtonBox";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import list from "../../assets/images/align-to-right.png";
 import contacts from "../../assets/images/сontacts.png";
@@ -157,7 +158,7 @@ class Profile extends Component {
   render() {
     const segments = [
       {
-        title: "Мои данные",
+        title: <Ionicons name="ios-person"/>,
         view: One,
         viewProps: {
           profile: this.props.profile.profile
