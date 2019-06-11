@@ -111,13 +111,13 @@ class DetailedProduct extends Component {
           <View style={styles.feeWrap}>
             <View style={[styles.priceWrap]}>
               <View style={styles.priceRow}>
-                <Text style={styles.topText}>Продовец </Text>
+                <Text style={styles.topText}>{this.props.translate.currentLanguage.constants.seller} </Text>
                 <Text style={styles.topText}>{currentProduct.price} ₸</Text>
               </View>
               {currentProduct.fee && (
                 <View style={styles.priceRow}>
-                  <Text style={styles.secText}>от </Text>
-                  <Text style={styles.thirdText}>7000 ₸</Text>
+                  <Text style={styles.secText}>{this.props.translate.currentLanguage.constants.from} </Text>
+                  <Text style={styles.thirdText}>{currentProduct.fee} ₸</Text>
                 </View>
               )}
             </View>
@@ -140,11 +140,11 @@ class DetailedProduct extends Component {
           <Accordion
             desc={currentProduct.description}
             image={alignToRight}
-            title={"Описание"}
+            title={this.props.translate.currentLanguage.constants.description}
           />
-          <List data={currentProduct} image={price} title={"Цена"} />
+          <List data={currentProduct} image={price} title={this.props.translate.currentLanguage.constants.price} />
           {currentProduct.contacts && (
-            <ContactList contactList={currentProduct.contacts} image={contacts} title="Контакты" />
+            <ContactList contactList={currentProduct.contacts} image={contacts} title={this.props.translate.currentLanguage.constants.contacts} />
           )}
         </ScrollView>
       </SafeAreaView>
@@ -232,8 +232,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ products, errors }) => {
-  return { products, errors };
+const mapStateToProps = ({ products,translate, errors }) => {
+  return { products,translate, errors };
 };
 
 const mapDispatchToProps = dispatch => ({});

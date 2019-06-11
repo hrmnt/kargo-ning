@@ -10,6 +10,8 @@ const SET_PRODUCT = "SET_PRODUCT";
 const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
 
 
+const SET_SELLER = "SET_SELLER"
+
 
 export {
     SIGN_IN,
@@ -20,5 +22,6 @@ export {
     GET_PRODUCTS,
     SET_PRODUCT,
     GET_PROFILE,
-    CHANGE_LANGUAGE
+    CHANGE_LANGUAGE,
+    SET_SELLER
 }

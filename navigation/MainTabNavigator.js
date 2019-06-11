@@ -14,6 +14,21 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProducts, setCurent } from "../actions/ProductActions";
 
+const AuthContainer = createStackNavigator({
+
+  SignIn:{
+    screen:SignIn
+  },
+  SignUp:{
+    screen:SignUp
+  },
+  SignUpOrder:{
+    screen:SignUpOrder
+  },
+  SignUpContinue:{
+    screen: SignUpContinue
+  }
+},{ headerMode: 'none' })
 
 const HomeStack = createStackNavigator({
   Home,
@@ -74,6 +89,18 @@ const App = createBottomTabNavigator({
   ProfileContainerStack,
 })
 
+const Router = createStackNavigator({
+  // Splash:{
+  //   screen:Splash
+  // },
+  AuthStack:{
+    screen:AuthContainer
+  },
+  MainTabs:{
+    screen: App
+  }
+},{ headerMode: 'none' })
+
 const mapStateToProps = ({ products, translate, errors }) => {
   return { products, translate, errors };
 };
@@ -87,4 +114,4 @@ const mapDispatchToProps = dispatch => ({
 
 
 export default connect(mapStateToProps,
-  mapDispatchToProps)(App);
+  mapDispatchToProps)(Router);

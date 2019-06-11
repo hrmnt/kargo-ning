@@ -12,7 +12,7 @@ const UserProfile = props =>{
             <Image style={[styles.profileImage,props.imageStyle]} source={avatar} />
             <View style={styles.infoWrap}>
                 <Text style={[styles.name,props.textStyle]}>
-                    {props.user.last_name} {props.user.first_name}
+                    {props.user.last_name && props.user.last_name || "Нет имени"} {props.user.first_name && props.user.first_name}
                 </Text>
                 <StarRating
                 containerStyle={{width:"55%"}}
